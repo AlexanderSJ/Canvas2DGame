@@ -21,14 +21,7 @@ var TileMap = function(sizeX, sizeY, tileSheet){
 function GetTile(index, tileSize, tileSheetDimensions){
   return {
     x: (index % tileSheetDimensions.width) * tileSize,
-    y: floor(index / tileSheetDimensions.width) * tileSize
-  };
-}
-
-function GetTile(x,y,tileSize){
-  return {
-    x: x * tileSize,
-    y: y * tileSize
+    y: Math.floor(index / tileSheetDimensions.width) * tileSize
   };
 }
 
@@ -47,11 +40,18 @@ var game = function() {
                 9,9,9,9,9,
                 9,9,9,9,9,
                 9,9,9,9,9];
+  /*
   for (row = 0; row < map.mapDim.x; row++){
     for (col = 0; col < map.mapDim.y; col++){
         tile = GetTile(map.indexes[(row * map.mapDim.x) + col],map.tileSheet.tileSize);
         context.drawImage(img,tile.x,tile.y,map.tileSheet.tileSize,map.tileSheet.tileSize,0,0,64,64);
     }
+  }
+  */
+  tile = GetTile(map.indexes[0],map.tileSheet.tileSize,map.tileSheet.dim);
+  context.drawImage(img,tile.x,tile.y,map.tileSheet.tileSize,map.tileSheet.tileSize,0,0,64,64);
+
+  for (tiles = 0; tiles < map.mapDim.x * map.mapDim.y; tiles++){
   }
 
 
