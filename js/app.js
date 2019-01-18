@@ -1,3 +1,6 @@
+// What if each tile had an index pointing to the corresponding entry in an array of tilesheets
+// So that way we could store what tilesheet that tile texture corresponds to.
+
 var TileSheet = function(img, tileSize){
   this.img = img;
   this.tileSize = tileSize;
@@ -20,8 +23,8 @@ var TileMap = function(sizeX, sizeY, tileSheet){
 
 function GetTile(index, tileSize, tileSheetDimensions){
   return {
-    x: (index % tileSheetDimensions.width) * tileSize,
-    y: floor(index / tileSheetDimensions.width) * tileSize
+    x: (index % (tileSheetDimensions.width / tileSize)) * tileSize,
+    y: floor(index / (tileSheetDimensions.width / tileSize)) * tileSize
   };
 }
 
@@ -33,6 +36,7 @@ function GetTile(x,y,tileSize){
 }
 
 var game = function() {
+
   const canvas = document.getElementById("game_canvas");
   const context = canvas.getContext('2d');
 
@@ -49,8 +53,14 @@ var game = function() {
                 9,9,9,9,9];
   for (row = 0; row < map.mapDim.x; row++){
     for (col = 0; col < map.mapDim.y; col++){
-        tile = GetTile(map.indexes[(row * map.mapDim.x) + col],map.tileSheet.tileSize);
-        context.drawImage(img,tile.x,tile.y,map.tileSheet.tileSize,map.tileSheet.tileSize,0,0,64,64);
+      console.log(map.indexes[(row*map.mapDim.x)+col]);
+        tile = GetTile(
+          map.indexes[(row * map.mapDim.x) + col],
+          map.tileSheet.tileSize,
+          map.tileSheet.dim
+        );
+        console.log(tile.x);
+        context.drawImage(img,tile.x,tile.y,map.tileSheet.tileSize,map.tileSheet.tileSize,row*map.tileSheet.tileSize,col*map.tileSheet.tileSize,64,64);
     }
   }
 
